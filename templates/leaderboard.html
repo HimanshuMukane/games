@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Thursday - Leaderboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/cookie-auth.js"></script>
+    <script src="/static/js/live.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Fun Thursday</h1>
+            <div id="userInfo" class="user-info">
+                <span id="welcomeMsg" class="welcome-msg"></span>
+                <button onclick="logout()" class="btn btn-danger logout-btn">Logout</button>
+            </div>
+        </div>
+        
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button" onclick="showTreasureHunt()">🏴‍☠️ Treasure Hunt</button>
+            <button class="tab-button active" onclick="showLeaderboard()">🏆 Leaderboard</button>
+        </div>
+        
+        <!-- Leaderboard Tab Content -->
+        <div id="leaderboardTab" class="tab-content">
+            <!-- Top 3 Section -->
+            <div class="top3-container">
+                <div class="top3-header">
+                    <!-- <h2>🏆 Top 3 Players</h2> -->
+                </div>
+                <div class="top3-cards" id="top3Cards">
+                    <div class="top3-card first">
+                        <div class="player-info">
+                            <img src="/static/images/avatar1.png" alt="1st Place" class="player-photo">
+                            <div class="player-name">Loading...</div>
+                        </div>
+                        <div class="stage-container">
+                            <div class="stage-image stage-lg">
+                                <img src="/static/images/stage-lg.png" alt="First Place Stage" class="stage-bg">
+                                <div class="trophy-icon trophy-gold">
+                                    <?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 width="800px" height="800px" viewBox="0 0 799.254 799.255"
+	 xml:space="preserve">
+<g>
+	<path d="M183.02,86.234l17.56,20.408c4.307-4.087,41.694-40.962,29.886-73.21C222.219,10.936,194.601,0,146.008,0
+		c-35.174,0-51.406,16.669-58.83,30.658c-32.273,60.755,37.1,188.535,59.12,226.243c47.038,80.531,117.255,124.266,136.359,135.109
+		c3.674,12.029,4.606,24.755,2.443,27.125c-0.036,0.037-4.651,2.431-20.513-4.726l-10.328,25.319
+		c10.814,4.884,20.271,7.317,28.336,7.317c8.498,0,15.428-2.718,20.732-8.139c9.3-9.526,10.019-24.452,8.264-37.383
+		c5.894,6.271,11.826,10.841,17.69,13.704c45.808,22.39,45.808,122.265,45.808,122.265l-34.354,20.662l24.539,27.553
+		c-13.089,161.87-85.07,179.09-85.07,179.09v34.457h112.881h8.178h112.881v-34.453c0,0-71.979-17.22-85.066-179.09l24.537-27.553
+		l-34.354-20.662c0,0,0-99.875,45.809-122.263c7.91-3.865,15.951-10.819,23.844-20.89c-2.962,14.172-4.072,33.205,7.014,44.564
+		c5.313,5.421,12.241,8.139,20.729,8.139c8.053,0,17.523-2.436,28.339-7.316l-10.313-25.32c-15.85,7.156-20.478,4.75-20.501,4.75
+		c-2.175-2.396-1.331-14.881,2.44-27.149c19.105-10.855,89.311-54.592,136.332-135.109c22.03-37.708,91.405-165.488,59.12-226.243
+		c-7.412-13.989-23.654-30.658-58.817-30.658c-48.593,0-76.223,10.936-84.454,33.432c-11.811,32.248,25.562,69.123,29.871,73.21
+		l17.561-20.42c-10.01-9.539-27.031-31.899-23.008-42.891c2.803-7.625,20.027-15.78,60.03-15.78
+		c27.198,0,33.806,12.458,35.979,16.548c16.318,30.728-7.223,110.453-58.576,198.379
+		c-41.713,71.412-104.915,112.544-124.442,124.074c30.366-59.621,54.841-170.632,54.841-335.325H401.263h-8.178H233.298
+		c0,160.83,23.338,270.464,52.71,331.042c-24.782-15.609-79.706-55.244-117.405-119.791
+		c-51.352-87.926-74.898-167.652-58.588-198.379c2.171-4.091,8.791-16.548,35.992-16.548c39.977,0,57.219,8.155,60.016,15.78
+		C209.73,53.381,195.035,74.707,183.02,86.234z"/>
+</g>
+</svg>
+                                </div>
+                                <div class="points-section">
+                                    <div class="points-value">
+                                        <div class="diamond-icon">💎</div>
+                                        <span>0</span>
+                                    </div>
+                                    <div class="points-text">points</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="top3-card second">
+                        <div class="player-info">
+                            <img src="/static/images/avatar2.png" alt="2nd Place" class="player-photo">
+                            <div class="player-name">Loading...</div>
+                        </div>
+                        <div class="stage-container">
+                            <div class="stage-image stage-md">
+                                <img src="/static/images/stage-md.png" alt="Second Place Stage" class="stage-bg">
+                                <div class="trophy-icon trophy-silver">
+                                    <?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 width="800px" height="800px" viewBox="0 0 799.254 799.255"
+	 xml:space="preserve">
+<g>
+	<path d="M183.02,86.234l17.56,20.408c4.307-4.087,41.694-40.962,29.886-73.21C222.219,10.936,194.601,0,146.008,0
+		c-35.174,0-51.406,16.669-58.83,30.658c-32.273,60.755,37.1,188.535,59.12,226.243c47.038,80.531,117.255,124.266,136.359,135.109
+		c3.674,12.029,4.606,24.755,2.443,27.125c-0.036,0.037-4.651,2.431-20.513-4.726l-10.328,25.319
+		c10.814,4.884,20.271,7.317,28.336,7.317c8.498,0,15.428-2.718,20.732-8.139c9.3-9.526,10.019-24.452,8.264-37.383
+		c5.894,6.271,11.826,10.841,17.69,13.704c45.808,22.39,45.808,122.265,45.808,122.265l-34.354,20.662l24.539,27.553
+		c-13.089,161.87-85.07,179.09-85.07,179.09v34.457h112.881h8.178h112.881v-34.453c0,0-71.979-17.22-85.066-179.09l24.537-27.553
+		l-34.354-20.662c0,0,0-99.875,45.809-122.263c7.91-3.865,15.951-10.819,23.844-20.89c-2.962,14.172-4.072,33.205,7.014,44.564
+		c5.313,5.421,12.241,8.139,20.729,8.139c8.053,0,17.523-2.436,28.339-7.316l-10.313-25.32c-15.85,7.156-20.478,4.75-20.501,4.75
+		c-2.175-2.396-1.331-14.881,2.44-27.149c19.105-10.855,89.311-54.592,136.332-135.109c22.03-37.708,91.405-165.488,59.12-226.243
+		c-7.412-13.989-23.654-30.658-58.817-30.658c-48.593,0-76.223,10.936-84.454,33.432c-11.811,32.248,25.562,69.123,29.871,73.21
+		l17.561-20.42c-10.01-9.539-27.031-31.899-23.008-42.891c2.803-7.625,20.027-15.78,60.03-15.78
+		c27.198,0,33.806,12.458,35.979,16.548c16.318,30.728-7.223,110.453-58.576,198.379
+		c-41.713,71.412-104.915,112.544-124.442,124.074c30.366-59.621,54.841-170.632,54.841-335.325H401.263h-8.178H233.298
+		c0,160.83,23.338,270.464,52.71,331.042c-24.782-15.609-79.706-55.244-117.405-119.791
+		c-51.352-87.926-74.898-167.652-58.588-198.379c2.171-4.091,8.791-16.548,35.992-16.548c39.977,0,57.219,8.155,60.016,15.78
+		C209.73,53.381,195.035,74.707,183.02,86.234z"/>
+</g>
+</svg>
+                                </div>
+                                <div class="points-section">
+                                    <div class="points-value">
+                                        <div class="diamond-icon">💎</div>
+                                        <span>0</span>
+                                    </div>
+                                    <div class="points-text">points</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="top3-card third">
+                        <div class="player-info">
+                            <img src="/static/images/avatar3.png" alt="3rd Place" class="player-photo">
+                            <div class="player-name">Loading...</div>
+                        </div>
+                        <div class="stage-container">
+                            <div class="stage-image stage-md">
+                                <img src="/static/images/stage-md.png" alt="Third Place Stage" class="stage-bg">
+                                <div class="trophy-icon trophy-bronze">
+                                    <?xml version="1.0" encoding="iso-8859-1"?>
+                                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                                    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                                    <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                         width="800px" height="800px" viewBox="0 0 799.254 799.255"
+                                         xml:space="preserve">
+                                    <g>
+                                        <path d="M183.02,86.234l17.56,20.408c4.307-4.087,41.694-40.962,29.886-73.21C222.219,10.936,194.601,0,146.008,0
+                                            c-35.174,0-51.406,16.669-58.83,30.658c-32.273,60.755,37.1,188.535,59.12,226.243c47.038,80.531,117.255,124.266,136.359,135.109
+                                            c3.674,12.029,4.606,24.755,2.443,27.125c-0.036,0.037-4.651,2.431-20.513-4.726l-10.328,25.319
+                                            c10.814,4.884,20.271,7.317,28.336,7.317c8.498,0,15.428-2.718,20.732-8.139c9.3-9.526,10.019-24.452,8.264-37.383
+                                            c5.894,6.271,11.826,10.841,17.69,13.704c45.808,22.39,45.808,122.265,45.808,122.265l-34.354,20.662l24.539,27.553
+                                            c-13.089,161.87-85.07,179.09-85.07,179.09v34.457h112.881h8.178h112.881v-34.453c0,0-71.979-17.22-85.066-179.09l24.537-27.553
+                                            l-34.354-20.662c0,0,0-99.875,45.809-122.263c7.91-3.865,15.951-10.819,23.844-20.89c-2.962,14.172-4.072,33.205,7.014,44.564
+                                            c5.313,5.421,12.241,8.139,20.729,8.139c8.053,0,17.523-2.436,28.339-7.316l-10.313-25.32c-15.85,7.156-20.478,4.75-20.501,4.75
+                                            c-2.175-2.396-1.331-14.881,2.44-27.149c19.105-10.855,89.311-54.592,136.332-135.109c22.03-37.708,91.405-165.488,59.12-226.243
+                                            c-7.412-13.989-23.654-30.658-58.817-30.658c-48.593,0-76.223,10.936-84.454,33.432c-11.811,32.248,25.562,69.123,29.871,73.21
+                                            l17.561-20.42c-10.01-9.539-27.031-31.899-23.008-42.891c2.803-7.625,20.027-15.78,60.03-15.78
+                                            c27.198,0,33.806,12.458,35.979,16.548c16.318,30.728-7.223,110.453-58.576,198.379
+                                            c-41.713,71.412-104.915,112.544-124.442,124.074c30.366-59.621,54.841-170.632,54.841-335.325H401.263h-8.178H233.298
+                                            c0,160.83,23.338,270.464,52.71,331.042c-24.782-15.609-79.706-55.244-117.405-119.791
+                                            c-51.352-87.926-74.898-167.652-58.588-198.379c2.171-4.091,8.791-16.548,35.992-16.548c39.977,0,57.219,8.155,60.016,15.78
+                                            C209.73,53.381,195.035,74.707,183.02,86.234z"/>
+                                    </g>
+                                    </svg>
+                                </div>
+                                <div class="points-section">
+                                    <div class="points-value">
+                                        <div class="diamond-icon">💎</div>
+                                        <span>0</span>
+                                    </div>
+                                    <div class="points-text">points</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="leaderboard-container">
+                <div class="leaderboard-header">
+                    <h1>Current Rankings</h1>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th class="rank-column">Rank</th>
+                                <th class="photo-column">Photo</th>
+                                <th>Player Name</th>
+                                <th class="points-column">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard">
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <div class="loading"></div>
+                                    <span class="loading-text">Loading leaderboard...</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Treasure Hunt Tab Content -->
+        <div id="treasureHuntTab" class="tab-content hidden">
+            <div class="treasure-hunt-container">
+                <div class="treasure-hunt-header">
+                    <h1>🏴‍☠️ Treasure Hunt</h1>
+                    <p class="treasure-hunt-subtitle">Find the hidden treasure by solving the puzzle!</p>
+                </div>
+                
+                <div id="hintsSection" class="hints-section">
+                    <h3>Hints:</h3>
+                    <div id="hintsContainer" class="hints-container">
+                        <!-- Hints will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="treasure-hunt-form">
+                    <div class="form-group">
+                        <label for="treasureAnswer">Enter your answer:</label>
+                        <input type="text" id="treasureAnswer" class="form-control" placeholder="Type your answer here..." maxlength="255">
+                    </div>
+                    <button onclick="submitTreasureAnswer()" class="btn btn-primary btn-treasure-submit">
+                        <span id="submitText">Submit Answer</span>
+                        <div id="submitLoading" class="loading" style="display: none;"></div>
+                    </button>
+                </div>
+                
+                <div id="treasureResult" class="treasure-result" style="display: none;">
+                    <!-- Result will be shown here -->
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function showTreasureHunt() {
+            document.getElementById('treasureHuntTab').classList.remove('hidden');
+            document.getElementById('leaderboardTab').classList.add('hidden');
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Load treasure history
+            loadTreasureHistory();
+        }
+        
+        function showLeaderboard() {
+            document.getElementById('leaderboardTab').classList.remove('hidden');
+            document.getElementById('treasureHuntTab').classList.add('hidden');
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Load leaderboard data
+            loadLeaderboard();
+        }
+        
+        // Treasure hunt functionality
+        function submitTreasureAnswer() {
+            const answer = document.getElementById('treasureAnswer').value.trim();
+            if (!answer) {
+                showTreasureResult('Please enter an answer!', 'error');
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById('submitText').style.display = 'none';
+            document.getElementById('submitLoading').style.display = 'inline-block';
+            document.querySelector('.btn-treasure-submit').disabled = true;
+            
+            // Send AJAX request
+            $.ajax({
+                url: '/api/treasure-hunt/submit',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ answer: answer }),
+                success: function(response) {
+                    showTreasureResult(response.message, response.is_correct ? 'success' : 'error');
+                    if (response.is_correct) {
+                        document.getElementById('treasureAnswer').value = '';
+                    }
+                    loadCurrentQuestion();
+                },
+                error: function(xhr) {
+                    const errorMsg = xhr.responseJSON ? xhr.responseJSON.detail : 'An error occurred';
+                    showTreasureResult(errorMsg, 'error');
+                },
+                complete: function() {
+                    // Hide loading state
+                    document.getElementById('submitText').style.display = 'inline';
+                    document.getElementById('submitLoading').style.display = 'none';
+                    document.querySelector('.btn-treasure-submit').disabled = false;
+                }
+            });
+        }
+        
+        function showTreasureResult(message, type) {
+            const resultDiv = document.getElementById('treasureResult');
+            resultDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            resultDiv.style.display = 'block';
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        function showEncryptedAnswer(encryptedAnswer) {
+            const resultDiv = document.getElementById('treasureResult');
+            resultDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <strong>Encrypted Answer:</strong><br>
+                    <code style="font-size: 1.2rem; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; display: block; margin-top: 10px;">${encryptedAnswer}</code>
+                </div>
+            `;
+            resultDiv.style.display = 'block';
+        }
+        
+        function loadCurrentQuestion() {
+            $.ajax({
+                url: '/api/treasure-hunt/current',
+                method: 'GET',
+                success: function(response) {
+                    if (response.treasure) {
+                        // Load hint for current treasure hunt
+                        loadHint(response.treasure);
+                    } else {
+                        document.getElementById('hintsContainer').innerHTML = `
+                            <div class="alert alert-info">${response.message}</div>
+                        `;
+                    }
+                },
+                error: function() {
+                    document.getElementById('hintsContainer').innerHTML = '<div class="alert alert-error">Error loading treasure hunt</div>';
+                }
+            });
+        }
+        
+        function loadHint(treasure) {
+            const hintsContainer = document.getElementById('hintsContainer');
+            let hintHtml = '';
+            
+            if (treasure.encrypted_hint) {
+                hintHtml = `
+                    <div class="hint-item">
+                        <strong>Treasure Hunt Riddle:</strong>
+                        <code class="encrypted-hint">${treasure.encrypted_hint}</code>
+                    </div>
+                `;
+            } else {
+                hintHtml = '<div class="alert alert-info">Loading treasure hunt...</div>';
+            }
+            
+            hintsContainer.innerHTML = hintHtml;
+        }
+        
+        
+        
+        function loadLeaderboard() {
+            $.ajax({
+                url: '/api/leaderboard',
+                method: 'GET',
+                success: function(response) {
+                    const tbody = document.getElementById('leaderboard');
+                    if (response.leaderboard.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="4" class="text-center">No players yet</td></tr>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    response.leaderboard.forEach(player => {
+                        html += `
+                            <tr>
+                                <td class="rank-column">${player.rank}</td>
+                                <td class="photo-column">
+                                    <img src="${player.profile_photo}" alt="${player.real_name}" class="player-photo-small">
+                                </td>
+                                <td>${player.real_name}</td>
+                                <td class="points-column">
+                                    <span class="points-badge">${player.points}</span>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    tbody.innerHTML = html;
+                },
+                error: function() {
+                    document.getElementById('leaderboard').innerHTML = '<tr><td colspan="4" class="text-center">Error loading leaderboard</td></tr>';
+                }
+            });
+        }
+        
+        // Load data on page load
+        $(document).ready(function() {
+            loadLeaderboard();
+            loadCurrentQuestion();
+        });
+    </script>
+
+</body>
+</html>

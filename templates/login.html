@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Fun Thursday - Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css?v=3&t=20250118">
+    <script src="/static/js/cookie-auth.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Fun Thursday</h1>
+                <p>Login or Register to Play</p>
+            </div>
+            
+            <div class="login-form">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" class="form-control" 
+                               placeholder="Enter your username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="real_name">Full Name (Optional):</label>
+                        <input type="text" id="real_name" name="real_name" class="form-control" 
+                               placeholder="Enter your full name (optional)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" class="form-control" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-login" id="loginBtn">
+                        Login / Register
+                    </button>
+                </form>
+                
+                <div class="loading" id="loading">
+                    <div class="loading"></div>
+                    <span style="margin-left: 10px;">Processing...</span>
+                </div>
+                
+                <div id="result"></div>
+            </div>
+        </div>
+    </div>
+<script>
+$(document).ready(function () {
+    $("#loading").hide();
+
+    // Check for error messages in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    if (error === 'registration_disabled') {
+        $("#result").html("<p style='color:red'>New registrations are currently disabled. Please contact an administrator.</p>");
+    }
+
+    $("#loginForm").submit(function (e) {
+        e.preventDefault();
+
+        let username = $("#username").val().trim();
+        let real_name = $("#real_name").val().trim();
+        let gender = $("#gender").val();
+
+        if (!username) {
+            $("#result").html("<p style='color:red'>Please enter a username.</p>");
+            return;
+        }
+
+        $("#loading").show();
+        $("#result").html("");
+
+        $.ajax({
+            url: "/api/login",
+            method: "POST",
+            data: {
+                username: username,
+                real_name: real_name,
+                gender: gender
+            },
+            success: function (response, status, xhr) {
+                $("#loading").hide();
+                
+                // Check if we got a redirect response
+                if (xhr.status === 302 || xhr.getResponseHeader('Location')) {
+                    $("#result").html("<p style='color:green'>Login successful! Redirecting...</p>");
+                    // The browser will automatically follow the redirect
+                    window.location.href = "/";
+                } else {
+                    $("#result").html("<p style='color:green'>Login successful! Redirecting...</p>");
+                    window.location.href = "/";
+                }
+            },
+            error: function () {
+                $("#loading").hide();
+                $("#result").html("<p style='color:red'>Server error. Try again later.</p>");
+            }
+        });
+    });
+
+    // Cookie helper
+    function setCookie(name, value, days) {
+        let d = new Date();
+        d.setTime(d.getTime() + (days*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+    }
+});
+</script>
+
+</body>
+</html>

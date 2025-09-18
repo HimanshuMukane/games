@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Thursday - Treasure Hunt</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/cookie-auth.js"></script>
+    <script src="/static/js/live.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Fun Thursday</h1>
+            <div id="userInfo" class="user-info">
+                <span id="welcomeMsg" class="welcome-msg"></span>
+                <button onclick="logout()" class="btn btn-danger logout-btn">Logout</button>
+            </div>
+        </div>
+        
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button active" onclick="showTreasureHunt()">🏴‍☠️ Treasure Hunt</button>
+            <button class="tab-button" onclick="showLeaderboard()">🏆 Leaderboard</button>
+        </div>
+        
+        <!-- Treasure Hunt Tab Content -->
+        <div id="treasureHuntTab" class="tab-content">
+            <div class="treasure-hunt-container">
+                <div class="treasure-hunt-header">
+                    <h1>Treasure Hunt</h1>
+                    <p class="treasure-hunt-subtitle">Each letter hides as a number,<br>
+                        A starts the dance at zero.<br>
+                        Before it's written, it takes one step back,<br>
+                        so every mark is lesser than its true self.<br>
+                        A hundred is never a letter,<br>
+                        but the space that keeps words apart.<br>
+                        Thus the message hides,<br>
+                        in a trail of digits and pauses,<br>
+                        waiting for you to bring the alphabet back.</p>
+                </div>
+                
+                <div id="hintsSection" class="hints-section">
+                    <h3>Hint:</h3>
+                    <div id="hintsContainer" class="hints-container">
+                        <!-- Hints will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="treasure-hunt-form">
+                    <div class="form-group">
+                        <label for="treasureAnswer">Enter your answer:</label>
+                        <input type="text" id="treasureAnswer" class="form-control" placeholder="Type your answer here..." maxlength="255">
+                    </div>
+                    <button onclick="submitTreasureAnswer()" class="btn btn-primary btn-treasure-submit">
+                        <span id="submitText">Submit Answer</span>
+                        <div id="submitLoading" class="loading" style="display: none;"></div>
+                    </button>
+                </div>
+                
+                <div id="treasureResult" class="treasure-result" style="display: none;">
+                    <!-- Result will be shown here -->
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Leaderboard Tab Content -->
+        <div id="leaderboardTab" class="tab-content hidden">
+            <div class="leaderboard-container">
+                <div class="leaderboard-header">
+                    <h1>Current Rankings</h1>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th class="rank-column">Rank</th>
+                                <th class="photo-column">Photo</th>
+                                <th>Player Name</th>
+                                <th class="points-column">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard">
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <div class="loading"></div>
+                                    <span class="loading-text">Loading leaderboard...</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function showTreasureHunt() {
+            document.getElementById('treasureHuntTab').classList.remove('hidden');
+            document.getElementById('leaderboardTab').classList.add('hidden');
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        function showLeaderboard() {
+            document.getElementById('leaderboardTab').classList.remove('hidden');
+            document.getElementById('treasureHuntTab').classList.add('hidden');
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Load leaderboard data
+            loadLeaderboard();
+        }
+        
+        // Treasure hunt functionality
+        function submitTreasureAnswer() {
+            const answer = document.getElementById('treasureAnswer').value.trim();
+            if (!answer) {
+                showTreasureResult('Please enter an answer!', 'error');
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById('submitText').style.display = 'none';
+            document.getElementById('submitLoading').style.display = 'inline-block';
+            document.querySelector('.btn-treasure-submit').disabled = true;
+            
+            // Send AJAX request
+            $.ajax({
+                url: '/api/treasure-hunt/submit',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ answer: answer }),
+                success: function(response) {
+                    showTreasureResult(response.message, response.is_correct ? 'success' : 'error');
+                    if (response.is_correct) {
+                        document.getElementById('treasureAnswer').value = '';
+                    }
+                    loadCurrentQuestion();
+                },
+                error: function(xhr) {
+                    const errorMsg = xhr.responseJSON ? xhr.responseJSON.detail : 'An error occurred';
+                    showTreasureResult(errorMsg, 'error');
+                },
+                complete: function() {
+                    // Hide loading state
+                    document.getElementById('submitText').style.display = 'inline';
+                    document.getElementById('submitLoading').style.display = 'none';
+                    document.querySelector('.btn-treasure-submit').disabled = false;
+                }
+            });
+        }
+        
+        function showTreasureResult(message, type) {
+            const resultDiv = document.getElementById('treasureResult');
+            resultDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            resultDiv.style.display = 'block';
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        function showEncryptedAnswer(encryptedAnswer) {
+            const resultDiv = document.getElementById('treasureResult');
+            resultDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <strong>Encrypted Answer:</strong><br>
+                    <code style="font-size: 1.2rem; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; display: block; margin-top: 10px;">${encryptedAnswer}</code>
+                </div>
+            `;
+            resultDiv.style.display = 'block';
+        }
+        
+        function loadCurrentQuestion() {
+            $.ajax({
+                url: '/api/treasure-hunt/current',
+                method: 'GET',
+                success: function(response) {
+                    if (response.treasure) {
+                        // Load hint for current treasure hunt
+                        loadHint(response.treasure);
+                    } else {
+                        document.getElementById('hintsContainer').innerHTML = `
+                            <div class="alert alert-info">${response.message}</div>
+                        `;
+                    }
+                },
+                error: function() {
+                    document.getElementById('hintsContainer').innerHTML = '<div class="alert alert-error">Error loading treasure hunt</div>';
+                }
+            });
+        }
+        
+        function loadHint(treasure) {
+            const hintsContainer = document.getElementById('hintsContainer');
+            let hintHtml = '';
+            
+            if (treasure.encrypted_hint) {
+                hintHtml = `
+                    <div class="hint-item">
+                        <strong>Treasure Hunt Riddle:</strong>
+                        <code class="encrypted-hint">${treasure.encrypted_hint}</code>
+                    </div>
+                `;
+            } else {
+                hintHtml = '<div class="alert alert-info">Loading treasure hunt...</div>';
+            }
+            
+            hintsContainer.innerHTML = hintHtml;
+        }
+        
+        
+        
+        function loadLeaderboard() {
+            $.ajax({
+                url: '/api/leaderboard',
+                method: 'GET',
+                success: function(response) {
+                    const tbody = document.getElementById('leaderboard');
+                    if (response.leaderboard.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="4" class="text-center">No players yet</td></tr>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    response.leaderboard.forEach(player => {
+                        html += `
+                            <tr>
+                                <td class="rank-column">${player.rank}</td>
+                                <td class="photo-column">
+                                    <img src="${player.profile_photo}" alt="${player.real_name}" class="player-photo-small">
+                                </td>
+                                <td>${player.real_name}</td>
+                                <td class="points-column">
+                                    <span class="points-badge">${player.points}</span>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    tbody.innerHTML = html;
+                },
+                error: function() {
+                    document.getElementById('leaderboard').innerHTML = '<tr><td colspan="4" class="text-center">Error loading leaderboard</td></tr>';
+                }
+            });
+        }
+        
+        // Load treasure hunt data on page load
+        $(document).ready(function() {
+            loadCurrentQuestion();
+        });
+    </script>
+</body>
+</html>

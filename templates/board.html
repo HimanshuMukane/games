@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Thursday - Live Board</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/cookie-auth.js"></script>
+    <script src="/static/js/live.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Fun Thursday Live Board</h1>
+            <p>Watch the numbers being drawn in real-time</p>
+            <div id="userInfo" class="user-info">
+                <span id="welcomeMsg" class="welcome-msg"></span>
+                <button onclick="logout()" class="btn btn-danger logout-btn">Logout</button>
+            </div>
+        </div>
+        
+        <div class="board-container">
+            <div class="board-header">
+                <h1>Current Number</h1>
+            </div>
+            <div class="current-number" id="current">
+                <span>-</span>
+            </div>
+            
+            <div class="history-section">
+                <h3 class="history-title">Drawn Numbers</h3>
+                <div class="history-numbers" id="history">
+                    <div class="alert alert-info">No numbers drawn yet</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card text-center">
+            <h3>Game Controls</h3>
+            <p>Board updates every 2 seconds automatically</p>
+            <div style="margin-top: 15px;">
+                <button onclick="loadBoard()" class="btn btn-primary">Refresh Now</button>
+                <a href="/" class="btn btn-success">View Leaderboard</a>
+                <a href="/admin" class="btn btn-danger">Admin Panel</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Thursday - Admin Panel</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/cookie-auth.js"></script>
+    <script src="/static/js/live.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ Admin Panel</h1>
+            <p>Manage the Fun Thursday</p>
+            <div id="userInfo" class="user-info">
+                <span id="welcomeMsg" class="welcome-msg"></span>
+                <button onclick="logout()" class="btn btn-danger logout-btn">Logout</button>
+            </div>
+        </div>
+        
+        <div class="admin-container">
+            <div class="admin-section">
+                <h2>🎯 Allocate Points</h2>
+                <p>Give points to players for their performance</p>
+                <form id="pointsForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="user_select">Select Player:</label>
+                            <select id="user_select" name="user_select" class="form-control" required>
+                                <option value="">Loading players...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="points">Points:</label>
+                            <select id="points" name="points" class="form-control" required>
+                                <option value="">Select points</option>
+                                <option value="10">10 Points</option>
+                                <option value="20">20 Points</option>
+                                <option value="40">40 Points</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Give Points</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="pointsResult"></div>
+            </div>
+
+            <div class="admin-section">
+                <h2>Draw Number</h2>
+                <p>Draw a new number for the game (1-90)</p>
+                <form id="drawForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="number">Number to Draw:</label>
+                            <input type="number" id="number" name="number" class="form-control" 
+                                   min="1" max="90" placeholder="Enter number (1-90)" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">Draw Number</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="drawResult"></div>
+                <div class="mt-3">
+                    <button onclick="clearAllNumbers()" class="btn btn-warning">Clear All Numbers</button>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h2>👥 User Management</h2>
+                <p>Manage players and their information. Deleted users are hidden from the leaderboard but can be restored.</p>
+                <div class="user-management">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <button onclick="loadUsers()" class="btn btn-info">Refresh Users List</button>
+                        </div>
+                    </div>
+                    <div id="usersTable" class="users-table">
+                        <div class="loading">Loading users...</div>
+                    </div>
+                </div>
+                <div id="userManagementResult"></div>
+            </div>
+            
+            <div class="admin-section">
+                <h2>📊 Quick Actions</h2>
+                <p>Quick access to game features</p>
+                <div class="admin-actions">
+                    <a href="/" class="btn btn-primary">View Leaderboard</a>
+                    <a href="/board" class="btn btn-success">View Game Board</a>
+                    <button onclick="refreshAll()" class="btn btn-danger">Refresh All Data</button>
+                    <button onclick="refreshAvatars()" class="btn btn-warning">Refresh Avatars</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
