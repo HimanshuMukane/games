@@ -10,7 +10,7 @@ if env_path.exists():
     load_dotenv(env_path, override=True)
 
 class Settings:
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "mysql+pymysql://root@localhost:3306/housie_game")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "mysql+pymysql://root@localhost:3306/office_games")
     HOST: str = os.getenv("HOST", "0.0.0.0")
     PORT: int = int(os.getenv("PORT", 8000))
     ALLOW_NEW_REGISTRATIONS: bool = os.getenv("ALLOW_NEW_REGISTRATIONS", "true").lower() == "true"
